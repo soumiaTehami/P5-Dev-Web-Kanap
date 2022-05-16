@@ -5,11 +5,14 @@ fetch("http://localhost:3000/api/products")
   });
 
 function addproducts(data) {
-  const _id = data[0]._id;
-  const imageUrl = data[0].imageUrl;
-  const altTxt = data[0].altTxt;
-  const name=data[0].name
-  const description=data[0].description
+    for(i=0;i<data.length;i++){
+    
+
+  const _id = data[i]._id;
+  const imageUrl = data[i].imageUrl;
+  const altTxt = data[i].altTxt;
+  const name=data[i].name
+  const description=data[i].description
   const hr = makehr(_id);
   const h3= makeH3(name)
   const p= makeparagraphe(description)
@@ -19,7 +22,7 @@ function addproducts(data) {
   appendElementtohr(hr, article);
   appendElementtoArticle(article,h3,p,image)
    
-}
+}}
 
 function makehr(_id) {
   const hr = document.createElement("a");
