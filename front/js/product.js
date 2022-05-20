@@ -13,7 +13,15 @@ console.log({id});
   function lesProduits(produit) {
     const imageUrl = produit.imageUrl;
     const altTxt = produit.altTxt;
+    const name = produit.name;
+    const price = produit.price;
+    const description = produit.description;
+    const colors = produit.colors;
     makeImage(imageUrl, altTxt);
+    makeH1(name)
+    makePrice(price)
+    makeDescription(description)
+    makeColor(colors)
   }
   function makeImage(imageUrl, altTxt) {
     const image = document.createElement("img");
@@ -24,3 +32,37 @@ console.log({id});
       parent.appendChild(image);
   }
 }
+function makeH1(name) {
+  const h1 = document.querySelector("#title");
+  if (h1 != null) {
+    h1.textContent=name
+
+  }
+}
+function makePrice(price){
+  const span= document.querySelector("#price");
+  if (span!= null) {
+    span.textContent=price
+}
+}
+function makeDescription(description) {
+  const p = document.querySelector("#description");
+  if (p != null) {
+    p.textContent=description
+
+  }
+}
+function makeColor(colors){
+  const select = document.querySelector("#colors");
+  if (select != null) {
+    
+    select.textContent=colors
+    option.value=colors
+    const option = document.createElement("option");
+    select.appendChild(option)
+    
+  }
+
+  }
+
+
