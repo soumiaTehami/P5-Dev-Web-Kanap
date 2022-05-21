@@ -55,12 +55,14 @@ function makeDescription(description) {
 function makeColor(colors){
   const select = document.querySelector("#colors");
   if (select != null) {
-    
-    select.textContent=colors
-    option.value=colors
-    const option = document.createElement("option");
-    select.appendChild(option)
-    
+    for (i = 0; i < colors.length; i++) {
+      const option=document.createElement("option")
+      
+      option.value=colors[i] 
+      console.log(option)
+      option.textContent=colors[i]
+      select.appendChild(option)
+  }
   }
 
   }
