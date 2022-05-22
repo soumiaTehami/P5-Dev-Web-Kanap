@@ -57,14 +57,28 @@ function makeColor(colors){
   if (select != null) {
     for (i = 0; i < colors.length; i++) {
       const option=document.createElement("option")
-      
       option.value=colors[i] 
-      console.log(option)
       option.textContent=colors[i]
       select.appendChild(option)
   }
   }
-
   }
+  
+  const button =document.getElementById("addToCart")
+  if (button!=null){
+  button.addEventListener('click',function()
+{
+  const color=document.querySelector("#colors").value
+  const quantity=document.querySelector("#quantity").value
+
+      if(color == null  ||  color ===" "   ||  quantity == null  || quantity == 0){
+
+ 
+alert("Pour valider le choix de cet article, veuillez renseigner une couleur, et/ou une quantité valide entre 1 et 100") 
+      }     
+}
+)}
+    
+  
 
 
