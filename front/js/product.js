@@ -1,22 +1,28 @@
-function init() {
+
   //la variable params récupère l'url de la page
   const queryString = window.location.search;
   const Params = new URLSearchParams(queryString);
   // la variable id va récupérer la valeur du paramètre _id
   const id = Params.get("id");
-  
+  if(id != null){
+    let priceItem=0
+    let imgUrl,altText
+  }
+
+ 
+
   fetch("http://localhost:3000/api/products/" + id)
     .then((res) => res.json())
     .then((data) => lesProduits(data));
-}
-init();
-function lesProduits(produit) {
 
+function lesProduits(produit) {
   const imageUrl = produit.imageUrl;
   const altTxt = produit.altTxt;
+  altText=altTxt
+  imgUrl=imageUrl
   const name = produit.name;
   const price = produit.price;
-   
+  priceItem=price
   const description = produit.description;
   const colors = produit.colors;
   makeImage(imageUrl, altTxt);
@@ -29,8 +35,8 @@ function makeImage(imageUrl, altTxt) {
   const image = document.createElement("img");
   image.src = imageUrl;
   image.alt = altTxt;
-  const img= document.querySelector(".item__img");
-  if (img!= null) {
+  const img = document.querySelector(".item__img");
+  if (img != null) {
     img.appendChild(image);
   }
 }
@@ -66,37 +72,41 @@ function makeColor(colors) {
 
 const button = document.getElementById("addToCart");
 if (button != null) {
-  button.addEventListener("click", function () {
-  
-    const queryString = window.location.search;
-   const Params = new URLSearchParams(queryString);
-  // la variable id va récupérer la valeur du paramètre _id
-    const id = Params.get("id");
 
+  button.addEventListener("click", function () {
+    
+    const price=document.querySelector("#price")
     const color = document.querySelector("#colors").value;
     const quantity = document.querySelector("#quantity").value;
-    if (color == null || color === "" || quantity == null  || quantity == 0 || quantity >100) {
+  
+    
+    if (
+      color == null ||
+      color === "" ||
+      quantity == null ||
+      quantity == 0 ||
+      quantity > 100
+    ) {
       alert(
         "Pour valider le choix de cet article, veuillez renseigner une couleur, et une quantité valide entre 1 et 100"
       );
-      return 
+      return;
     } 
-    else {
+      const kanap = {
+        id: id,
+        price:priceItem,
+        color: color,
+        quantity:Number(quantity),
+        imageUrl:imgUrl,
+        altTxt:altText
+      };
 
-      const kanap= {
-       id:id,
-      color: color,
-      quantity:quantity
-    }  
-    
+      localStorage.setItem(id + "_" + color, JSON.stringify(kanap));
+      window.location.href="cart.html"
+      // localStorage.setItem("toto", JSON.stringify(kanap))
+      // const itemFrom=  JSON.parse(localStorage.getItem(id))
 
-
-    localStorage.setItem(id + "_" + color, JSON.stringify(kanap))
-   // localStorage.setItem("toto", JSON.stringify(kanap))
-   // const itemFrom=  JSON.parse(localStorage.getItem(id))
+      //console.log("vous avez ajouté au panier le canapé de couleur " +itemFrom.color+ " en quantité " + itemFrom.quantity)
     
-    //console.log("vous avez ajouté au panier le canapé de couleur " +itemFrom.color+ " en quantité " + itemFrom.quantity)
-    
-}});
+  });
 }
-
