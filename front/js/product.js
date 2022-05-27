@@ -4,9 +4,10 @@
   const Params = new URLSearchParams(queryString);
   // la variable id va récupérer la valeur du paramètre _id
   const id = Params.get("id");
+
   if(id != null){
     let priceItem=0
-    let imgUrl,altText
+    let imgUrl,altText,nameArticle
   }
 
  
@@ -21,6 +22,7 @@ function lesProduits(produit) {
   altText=altTxt
   imgUrl=imageUrl
   const name = produit.name;
+  nameArticle=name
   const price = produit.price;
   priceItem=price
   const description = produit.description;
@@ -98,6 +100,7 @@ if (button != null) {
         color: color,
         quantity:Number(quantity),
         imageUrl:imgUrl,
+        name:nameArticle,
         altTxt:altText
       };
 
