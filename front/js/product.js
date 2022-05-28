@@ -76,7 +76,7 @@ const button = document.getElementById("addToCart");
 if (button != null) {
 
   button.addEventListener("click", function () {
-    
+    let total=0
     const price=document.querySelector("#price")
     const color = document.querySelector("#colors").value;
     const quantity = document.querySelector("#quantity").value;
@@ -110,6 +110,12 @@ if (button != null) {
       // const itemFrom=  JSON.parse(localStorage.getItem(id))
 
       //console.log("vous avez ajouté au panier le canapé de couleur " +itemFrom.color+ " en quantité " + itemFrom.quantity)
+      kanap.forEach(item => {
+         quantity=item.quantity+item.quantity
+        total+=quantity
+      }) 
+      quantity.textContent=total
+      
     
   });
 }
