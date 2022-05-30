@@ -107,6 +107,7 @@ function cartsettings(item) {
   input.min = "1";
   input.max = "100";
   input.value = item.quantity;
+  input.addEventListener("input",()=>modifierPriceQauntity(item.id,input.value,item))
   d.appendChild(input);
 
   return div;
@@ -119,4 +120,17 @@ function cartDelete(item) {
   p.textContent = "Supprimer";
   div.appendChild(p);
   return div;
+}
+function modifierPriceQauntity(id,nouvValue,item){
+  const itemModifier=cart.find((item)=>item.id===id)
+  itemModifier.quantity=Number(nouvValue)
+  totalprice(item)
+  totalQuantity(item)
+  saveNewDataKanap(item)
+}
+function saveNewDataKanap(item) {
+  let dataSave= JSON.stringify(item)
+  console.log("dataSave",dataSave)
+  
+  //localStorage.setItem(item.id,dataSave)
 }

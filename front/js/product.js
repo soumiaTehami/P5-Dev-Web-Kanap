@@ -110,11 +110,7 @@ if (button != null) {
       // const itemFrom=  JSON.parse(localStorage.getItem(id))
 
       //console.log("vous avez ajouté au panier le canapé de couleur " +itemFrom.color+ " en quantité " + itemFrom.quantity)
-      kanap.forEach(item => {
-         quantity=item.quantity+item.quantity
-        total+=quantity
-      }) 
-      quantity.textContent=total
+     
       
     
   });
