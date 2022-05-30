@@ -124,13 +124,14 @@ function cartDelete(item) {
 function modifierPriceQauntity(id,nouvValue,item){
   const itemModifier=cart.find((item)=>item.id===id)
   itemModifier.quantity=Number(nouvValue)
+  item.quantity=itemModifier.quantity
   totalprice(item)
   totalQuantity(item)
   saveNewDataKanap(item)
 }
 function saveNewDataKanap(item) {
   let dataSave= JSON.stringify(item)
-  console.log("dataSave",dataSave)
-  
-  //localStorage.setItem(item.id,dataSave)
+  const key= item.id + "_" + item.color
+  localStorage.setItem(key,dataSave)
+
 }
