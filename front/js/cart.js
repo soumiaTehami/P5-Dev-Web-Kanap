@@ -23,7 +23,7 @@ function affiche(item) {
   totalQuantity(item)
  
 }
-function totalQuantity(item) {
+function totalQuantity() {
     let total = 0;
   
     cart.forEach((item) => {
@@ -34,7 +34,7 @@ function totalQuantity(item) {
   
     
   }
-function totalprice(item) {
+function totalprice() {
   let total = 0;
 
   cart.forEach((item) => {

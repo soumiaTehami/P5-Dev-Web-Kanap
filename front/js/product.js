@@ -76,10 +76,9 @@ const button = document.getElementById("addToCart");
 if (button != null) {
 
   button.addEventListener("click", function () {
-    let total=0
     const price=document.querySelector("#price")
     const color = document.querySelector("#colors").value;
-    const quantity = document.querySelector("#quantity").value;
+    let quantity = document.querySelector("#quantity").value;
   
     
     if (
@@ -104,14 +103,27 @@ if (button != null) {
         altTxt:altText
       };
 
-      localStorage.setItem(id + "_" + color, JSON.stringify(kanap));
-      window.location.href="cart.html"
-      // localStorage.setItem("toto", JSON.stringify(kanap))
-      // const itemFrom=  JSON.parse(localStorage.getItem(id))
+      let key = id + "_" + color;
+      
+      if (localStorage.getItem(key) !== null){
+        // Il y a deja un canapé avec cette key dans le localstorage
+       let quan= JSON.parse(localStorage.getItem(key)).quantity
+       quantity=Number(quan)+ Number(quantity)
+       kanap.quantity=quantity
+       
+      }
 
-      //console.log("vous avez ajouté au panier le canapé de couleur " +itemFrom.color+ " en quantité " + itemFrom.quantity)
+      localStorage.setItem(key, JSON.stringify(kanap));
+
+      
+      //window.location.href="cart.html"
      
       
+  
     
-  });
+    })
 }
+
+  
+  
+ 
