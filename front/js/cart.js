@@ -9,7 +9,6 @@ function affichagePanier() {
     cart.push(itemObj);
   }
   console.log(cart);
-  
 }
 function affiche(item) {
   const article = makeArticle(item);
@@ -20,20 +19,17 @@ function affiche(item) {
   article.appendChild(cart);
   console.log(article);
   totalprice(item);
-  totalQuantity(item)
- 
+  totalQuantity(item);
 }
 function totalQuantity() {
-    let total = 0;
-  
-    cart.forEach((item) => {
-      const totalQuantity = item.quantity;
-      total += totalQuantity;
-    });
-    document.getElementById("totalQuantity").textContent=total
-  
-    
-  }
+  let total = 0;
+
+  cart.forEach((item) => {
+    const totalQuantity = item.quantity;
+    total += totalQuantity;
+  });
+  document.getElementById("totalQuantity").textContent = total;
+}
 function totalprice() {
   let total = 0;
 
@@ -41,9 +37,7 @@ function totalprice() {
     const totalprice = item.price * item.quantity;
     total += totalprice;
   });
-  document.getElementById("totalPrice").textContent=total
-
-  
+  document.getElementById("totalPrice").textContent = total;
 }
 function appendArticle(article) {
   document.querySelector("#cart__items").appendChild(article);
@@ -107,7 +101,9 @@ function cartsettings(item) {
   input.min = "1";
   input.max = "100";
   input.value = item.quantity;
-  input.addEventListener("input",()=>modifierPriceQauntity(item.id,input.value,item))
+  input.addEventListener("input", () =>
+    modifierPriceQauntity(item.id, input.value, item)
+  );
   d.appendChild(input);
 
   return div;
@@ -115,43 +111,45 @@ function cartsettings(item) {
 function cartDelete(item) {
   const div = document.createElement("div");
   div.classList.add("cart__item__content__settings__delete");
-  div.addEventListener("click",()=> deleteItem(item))
+  div.addEventListener("click", () => deleteItem(item));
   const p = document.createElement("p");
   p.classList.add("deleteItem");
   p.textContent = "Supprimer";
   div.appendChild(p);
   return div;
 }
-function deleteItem(item){
-  const itemDlette= cart.findIndex( (product)=>product.id=== item.id && product.color===item.color) 
-  cart.splice(itemDlette,1)
-  console.log(cart)
-  totalprice()
-  totalQuantity()
-  deleteNewDataKanap(item) 
-  deleteArticle(item)  
+function deleteItem(item) {
+  const itemDlette = cart.findIndex(
+    (product) => product.id === item.id && product.color === item.color
+  );
+
+  cart.splice(itemDlette, 1);
+
+  totalprice();
+  totalQuantity();
+  deleteNewDataKanap(item);
+  deleteArticle(item);
 }
-function deleteArticle(item)  {
-  const deleteArticl=document.querySelector(
-    'article[data-id="${item.id}"][data-color= "${item.color}" ]'
-  )
-  deleteArticl.remove(item)
+function deleteArticle(item) {
+  const deleteArticl = document.querySelector(
+    ` article[data-id="${item.id}"][data-color= "${item.color}"]`
+  );
+  deleteArticl.remove();
 }
 function deleteNewDataKanap(item) {
-  const key= item.id + "_" + item.color
-  localStorage.removeItem(key)
-}  
-function modifierPriceQauntity(id,nouvValue,item){
-  const itemModifier=cart.find((item)=>item.id===id)
-  itemModifier.quantity=Number(nouvValue)
-  item.quantity=itemModifier.quantity
-  totalprice(item)
-  totalQuantity(item)
-  saveNewDataKanap(item)
+  const key = item.id + "_" + item.color;
+  localStorage.removeItem(key);
+}
+function modifierPriceQauntity(id, nouvValue, item) {
+  const itemModifier = cart.find((item) => item.id === id);
+  itemModifier.quantity = Number(nouvValue);
+  item.quantity = itemModifier.quantity;
+  totalprice(item);
+  totalQuantity(item);
+  saveNewDataKanap(item);
 }
 function saveNewDataKanap(item) {
-  let dataSave= JSON.stringify(item)
-  const key= item.id + "_" + item.color
-  localStorage.setItem(key,dataSave)
-
+  let dataSave = JSON.stringify(item);
+  const key = item.id + "_" + item.color;
+  localStorage.setItem(key, dataSave);
 }
