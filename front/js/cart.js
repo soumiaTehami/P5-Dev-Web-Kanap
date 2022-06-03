@@ -115,12 +115,32 @@ function cartsettings(item) {
 function cartDelete(item) {
   const div = document.createElement("div");
   div.classList.add("cart__item__content__settings__delete");
+  div.addEventListener("click",()=> deleteItem(item))
   const p = document.createElement("p");
   p.classList.add("deleteItem");
   p.textContent = "Supprimer";
   div.appendChild(p);
   return div;
 }
+function deleteItem(item){
+  const itemDlette= cart.findIndex( (product)=>product.id=== item.id && product.color===item.color) 
+  cart.splice(itemDlette,1)
+  console.log(cart)
+  totalprice()
+  totalQuantity()
+  deleteNewDataKanap(item) 
+  deleteArticle(item)  
+}
+function deleteArticle(item)  {
+  const deleteArticl=document.querySelector(
+    'article[data-id="${item.id}"][data-color= "${item.color}" ]'
+  )
+  deleteArticl.remove(item)
+}
+function deleteNewDataKanap(item) {
+  const key= item.id + "_" + item.color
+  localStorage.removeItem(key)
+}  
 function modifierPriceQauntity(id,nouvValue,item){
   const itemModifier=cart.find((item)=>item.id===id)
   itemModifier.quantity=Number(nouvValue)
