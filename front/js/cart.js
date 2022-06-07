@@ -187,8 +187,8 @@ function submitFrom(e){
     return false
   }
   function NOMPrenomInvalide(){
-    const nom=document.querySelector(".cart__order__form__question").value
-    const regex=/^[a-záàâäãåçéèêëíìîïñóòôöõúùûüýÿæœ\s-]$/;
+    const nom=document.querySelector("#firstName").value
+    const regex=/^[a-záàâäãåçéèêëíìîïñóòôöõúùûüýÿæœ\s-]{1,31}$/;
     if (regex.test(nom)===false){
       alert("remplir le champs correctement")
       return true
@@ -205,7 +205,13 @@ function submitFrom(e){
     }
   })
     .then((res) => res.json())
-    .then((data) => console.log(data));
+    .then((data) =>{
+      const orderId=data.orderId
+      window.location.href="/front/html/confirmation.html"+"?orderId="+ orderId
+      console.log(data)
+    })
+    .catch((error)=>console.log(error))
+    
     
   //console.log(form.elements.firstName.value)
 }
