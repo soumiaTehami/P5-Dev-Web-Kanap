@@ -158,7 +158,43 @@ buttonCommande.addEventListener("click",(e) =>submitFrom(e))
 
 function submitFrom(e){
   e.preventDefault();
-  if(cart.length === 0) alert("entrez un produits")
+  if(cart.length === 0) {
+    alert("entrez un produits")
+    return
+  }
+  if(invalidateForm())return
+  if(emailInvalide())return
+  if(NOMPrenomInvalide())return
+  function invalidateForm(){
+    const form=document.querySelector(".cart__order__form")
+    const inputs=document.querySelectorAll("input")
+    inputs.forEach((input) =>{
+      if (input.value===""){
+        alert("remplir tous les champs")
+        return true
+      }
+      return false
+    })
+
+  }
+  function emailInvalide(){
+    const email=document.querySelector("#email").value
+    const regex=/^[a-zA-Z0-9æœ.!#$%&’*+/=?^_`{|}~"(),:;<>@[\]-]+@([\w-]+\.)+[\w-]{2,4}$/;
+    if (regex.test(email)===false){
+      alert("remplir votre email")
+      return true
+    }
+    return false
+  }
+  function NOMPrenomInvalide(){
+    const nom=document.querySelector(".cart__order__form__question").value
+    const regex=/^[a-záàâäãåçéèêëíìîïñóòôöõúùûüýÿæœ\s-]$/;
+    if (regex.test(nom)===false){
+      alert("remplir le champs correctement")
+      return true
+    }
+    return false
+  }
   const form=document.querySelector(".cart__order__form")
   const body=cartOrder()
   fetch("http://localhost:3000/api/products/order",{
@@ -173,6 +209,7 @@ function submitFrom(e){
     
   //console.log(form.elements.firstName.value)
 }
+
 function cartOrder(){
   const form=document.querySelector(".cart__order__form")
   const firstName=form.elements.firstName.value
@@ -198,9 +235,9 @@ function getIds(){
   const ids=[]
   for(let i=0;i<numberProducts;i++){
    const key=localStorage.key(i)
-   console.log (key)
-    const id=key.split("-")[0]
+   const id=key.split("_")[0]
     ids.push(id)
+    console.log(id)
   }
   return ids
 }

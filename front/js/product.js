@@ -93,15 +93,16 @@ if (button != null) {
       );
       return;
     } 
-      const kanap = {
-        id: id,
-        price:priceItem,
-        color: color,
-        quantity:Number(quantity),
-        imageUrl:imgUrl,
-        name:nameArticle,
-        altTxt:altText
-      };
+    
+    const kanap = {
+      id: id,
+      price:priceItem,
+      color: color,
+      quantity:Number(quantity),
+      imageUrl:imgUrl,
+      name:nameArticle,
+      altTxt:altText
+    };
 
       let key = id + "_" + color;
       
@@ -117,8 +118,6 @@ if (button != null) {
 
       
       //window.location.href="cart.html"
-     
-      
   
     
     })
