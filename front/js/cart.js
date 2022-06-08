@@ -153,97 +153,107 @@ function saveNewDataKanap(item) {
   const key = item.id + "_" + item.color;
   localStorage.setItem(key, dataSave);
 }
-const buttonCommande=document.querySelector("#order")
-buttonCommande.addEventListener("click",(e) =>submitFrom(e))
+const buttonCommande = document.querySelector("#order");
+buttonCommande.addEventListener("click", (e) => submitFrom(e));
 
-function submitFrom(e){
+function submitFrom(e) {
   e.preventDefault();
-  if(cart.length === 0) {
-    alert("entrez un produits")
-    return
+  if (cart.length === 0) {
+    alert("entrez un produits");
+    return;
   }
-  if(invalidateForm())return
-  if(emailInvalide())return
-  if(NOMPrenomInvalide())return
-  function invalidateForm(){
-    const form=document.querySelector(".cart__order__form")
-    const inputs=document.querySelectorAll("input")
-    inputs.forEach((input) =>{
-      if (input.value===""){
-        alert("remplir tous les champs")
-        return true
+  if (invalidateForm()) return;
+  if (emailInvalide()) return;
+  if (NOMInvalide()) return;
+  if (PrenomInvalide()) return;
+  function invalidateForm() {
+    const form = document.querySelector(".cart__order__form");
+    const inputs = document.querySelectorAll("input");
+    inputs.forEach((input) => {
+      if (input.value === "") {
+        alert("remplir tous les champs");
+        return true;
       }
-      return false
-    })
-
+      return false;
+    });
   }
-  function emailInvalide(){
-    const email=document.querySelector("#email").value
-    const regex=/^[a-zA-Z0-9æœ.!#$%&’*+/=?^_`{|}~"(),:;<>@[\]-]+@([\w-]+\.)+[\w-]{2,4}$/;
-    if (regex.test(email)===false){
-      alert("remplir votre email")
-      return true
+  function emailInvalide() {
+    const email = document.querySelector("#email").value;
+    const regex =
+      /^[a-zA-Z0-9æœ.!#$%&’*+/=?^_`{|}~"(),:;<>@[\]-]+@([\w-]+\.)+[\w-]{2,4}$/;
+    if (regex.test(email) === false) {
+      alert("remplir votre email");
+      return true;
     }
-    return false
+    return false;
   }
-  function NOMPrenomInvalide(){
-    const nom=document.querySelector("#firstName").value
-    const regex=/^[a-záàâäãåçéèêëíìîïñóòôöõúùûüýÿæœ\s-]{1,31}$/;
-    if (regex.test(nom)===false){
-      alert("remplir le champs correctement")
-      return true
+  function NOMInvalide() {
+    const nom = document.querySelector("#firstName").value;
+    const regex = /^[a-záàâäãåçéèêëíìîïñóòôöõúùûüýÿæœ\s-]{1,31}$/;
+    if (regex.test(nom) === false) {
+      alert("remplir le champs correctement");
+      return true;
     }
-    return false
+    return false;
   }
-  const form=document.querySelector(".cart__order__form")
-  const body=cartOrder()
-  fetch("http://localhost:3000/api/products/order",{
-    method:"POST",
-    body:JSON.stringify(body),
-    headers:{
-      "Content-Type":"application/json"
+  function PrenomInvalide() {
+    const prenom = document.querySelector("#lastName").value;
+    const regex = /^[a-záàâäãåçéèêëíìîïñóòôöõúùûüýÿæœ\s-]{1,31}$/;
+    if (regex.test(prenom) === false) {
+      alert("remplir le champs correctement");
+      return true;
     }
+    return false;
+  }
+  const form = document.querySelector(".cart__order__form");
+  const body = cartOrder();
+  fetch("http://localhost:3000/api/products/order", {
+    method: "POST",
+    body: JSON.stringify(body),
+    headers: {
+      "Content-Type": "application/json",
+    },
   })
     .then((res) => res.json())
-    .then((data) =>{
-      const orderId=data.orderId
-      window.location.href="/front/html/confirmation.html"+"?orderId="+ orderId
-      console.log(data)
+    .then((data) => {
+      const orderId = data.orderId;
+      window.location.href =
+        "/front/html/confirmation.html" + "?orderId=" + orderId;
+      console.log(data);
     })
-    .catch((error)=>console.log(error))
-    
-    
+    .catch((error) => console.log(error));
+
   //console.log(form.elements.firstName.value)
 }
 
-function cartOrder(){
-  const form=document.querySelector(".cart__order__form")
-  const firstName=form.elements.firstName.value
-  const lastName=form.elements.lastName.value
-  const address=form.elements.address.value
-  const city=form.elements.city.value
-  const email=form.elements.email.value
+function cartOrder() {
+  const form = document.querySelector(".cart__order__form");
+  const firstName = form.elements.firstName.value;
+  const lastName = form.elements.lastName.value;
+  const address = form.elements.address.value;
+  const city = form.elements.city.value;
+  const email = form.elements.email.value;
 
-  const body={
-  contact: {
-    firstName:firstName, 
-    lastName:lastName, 
-    address:address,
-    city:city,
-    email:email
-},
-products: getIds()
+  const body = {
+    contact: {
+      firstName: firstName,
+      lastName: lastName,
+      address: address,
+      city: city,
+      email: email,
+    },
+    products: getIds(),
+  };
+  return body;
 }
-return body
-}
-function getIds(){
-  const numberProducts=localStorage.length
-  const ids=[]
-  for(let i=0;i<numberProducts;i++){
-   const key=localStorage.key(i)
-   const id=key.split("_")[0]
-    ids.push(id)
-    console.log(id)
+function getIds() {
+  const numberProducts = localStorage.length;
+  const ids = [];
+  for (let i = 0; i < numberProducts; i++) {
+    const key = localStorage.key(i);
+    const id = key.split("_")[0];
+    ids.push(id);
+    console.log(id);
   }
-  return ids
+  return ids;
 }

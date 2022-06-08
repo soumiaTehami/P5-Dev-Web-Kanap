@@ -29,19 +29,19 @@ function makeImage(imageUrl, altTxt) {
   image.alt = altTxt;
   return image;
 }
-  function appendElementtoHr(hr, article) {
-    const items = document.querySelector("#items");
-    if (items != null) {
-      items.appendChild(hr);
-      hr.appendChild(article);
-    }
+function appendElementtoHr(hr, article) {
+  const items = document.querySelector("#items");
+  if (items != null) {
+    items.appendChild(hr);
+    hr.appendChild(article);
   }
+}
 
-  function appendElementtoArticle(article, image, h3, p) {
-    article.appendChild(image);
-    article.appendChild(h3);
-    article.appendChild(p);
-  }
+function appendElementtoArticle(article, image, h3, p) {
+  article.appendChild(image);
+  article.appendChild(h3);
+  article.appendChild(p);
+}
 function addproducts(data) {
   for (i = 0; i < data.length; i++) {
     const _id = data[i]._id;
@@ -58,5 +58,3 @@ function addproducts(data) {
     appendElementtoArticle(article, image, h3, p);
   }
 }
-
-

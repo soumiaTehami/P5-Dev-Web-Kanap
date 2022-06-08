@@ -32,6 +32,7 @@ function lesProduits(produit) {
   makePrice(price);
   makeDescription(description);
   makeColor(colors);
+  addkanap()
 }
 function makeImage(imageUrl, altTxt) {
   const image = document.createElement("img");
@@ -71,7 +72,7 @@ function makeColor(colors) {
     }
   }
 }
-
+function addkanap(){
 const button = document.getElementById("addToCart");
 if (button != null) {
 
@@ -93,7 +94,7 @@ if (button != null) {
       );
       return;
     } 
-    
+
     const kanap = {
       id: id,
       price:priceItem,
@@ -123,6 +124,6 @@ if (button != null) {
     })
 }
 
-  
+}
   
  
