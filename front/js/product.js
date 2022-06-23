@@ -1,30 +1,18 @@
+//la variable params récupère l'url de la page
+const queryString = window.location.search;
+const Params = new URLSearchParams(queryString);
+// la variable id va récupérer la valeur du paramètre _id
+const id = Params.get("id");
 
-  //la variable params récupère l'url de la page
-  const queryString = window.location.search;
-  const Params = new URLSearchParams(queryString);
-  // la variable id va récupérer la valeur du paramètre _id
-  const id = Params.get("id");
-
-  if(id != null){
-    let priceItem=0
-    let imgUrl,altText,nameArticle
-  }
-
- 
-
-  fetch("http://localhost:3000/api/products/" + id)
-    .then((res) => res.json())
-    .then((data) => lesProduits(data));
+fetch("http://localhost:3000/api/products/" + id)
+  .then((res) => res.json())
+  .then((data) => lesProduits(data));
 
 function lesProduits(produit) {
   const imageUrl = produit.imageUrl;
   const altTxt = produit.altTxt;
-  altText=altTxt
-  imgUrl=imageUrl
   const name = produit.name;
-  nameArticle=name
   const price = produit.price;
-  priceItem=price
   const description = produit.description;
   const colors = produit.colors;
   makeImage(imageUrl, altTxt);
@@ -32,7 +20,7 @@ function lesProduits(produit) {
   makePrice(price);
   makeDescription(description);
   makeColor(colors);
-  addkanap()
+  addkanap();
 }
 function makeImage(imageUrl, altTxt) {
   const image = document.createElement("img");
@@ -72,58 +60,45 @@ function makeColor(colors) {
     }
   }
 }
-function addkanap(){
-const button = document.getElementById("addToCart");
-if (button != null) {
+function addkanap() {
+  const button = document.getElementById("addToCart");
+  if (button != null) {
+    button.addEventListener("click", function () {
+      const price = document.querySelector("#price");
+      const color = document.querySelector("#colors").value;
+      let quantity = document.querySelector("#quantity").value;
 
-  button.addEventListener("click", function () {
-    const price=document.querySelector("#price")
-    const color = document.querySelector("#colors").value;
-    let quantity = document.querySelector("#quantity").value;
-  
-    
-    if (
-      color == null ||
-      color === "" ||
-      quantity == null ||
-      quantity == 0 ||
-      quantity > 100
-    ) {
-      alert(
-        "Pour valider le choix de cet article, veuillez renseigner une couleur, et une quantité valide entre 1 et 100"
-      );
-      return;
-    } 
+      if (
+        color == null ||
+        color === "" ||
+        quantity == null ||
+        quantity == 0 ||
+        quantity > 100
+      ) {
+        alert(
+          "Pour valider le choix de cet article, veuillez renseigner une couleur, et une quantité valide entre 1 et 100"
+        );
+        return;
+      }
 
-    const kanap = {
-      id: id,
-      price:priceItem,
-      color: color,
-      quantity:Number(quantity),
-      imageUrl:imgUrl,
-      name:nameArticle,
-      altTxt:altText
-    };
+      const kanap = {
+        id: id,
+
+        quantity: Number(quantity),
+      };
 
       let key = id + "_" + color;
-      
-      if (localStorage.getItem(key) !== null){
+
+      if (localStorage.getItem(key) !== null) {
         // Il y a deja un canapé avec cette key dans le localstorage
-       let quan= JSON.parse(localStorage.getItem(key)).quantity
-       quantity=Number(quan)+ Number(quantity)
-       kanap.quantity=quantity
-       
+        let quan = JSON.parse(localStorage.getItem(key)).quantity;
+        quantity = Number(quan) + Number(quantity);
+        kanap.quantity = quantity;
       }
 
       localStorage.setItem(key, JSON.stringify(kanap));
 
-      
       //window.location.href="cart.html"
-  
-    
-    })
+    });
+  }
 }
-
-}
-  
- 

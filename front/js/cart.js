@@ -1,25 +1,44 @@
 const cart = [];
-affichagePanier();
-cart.forEach((item) => affiche(item));
-function affichagePanier() {
-  const numbItem = localStorage.length;
-  for (let i = 0; i < numbItem; i++) {
+
+function init() {
+  const nbKanap = localStorage.length;
+  for (let i = 0; i < nbKanap; i++) {
+    // Recuperation du kanap depuis le localstorage
     const item = localStorage.getItem(localStorage.key(i)) || "";
-    const itemObj = JSON.parse(item);
-    cart.push(itemObj);
+    const itemObj = JSON.parse(item); // notre canapé est dans la variable itemObj
+    console.log("key : " + localStorage.key(i));
+    cart.push(itemObj); //ajouté id et quantité cart
+    console.log(cart);
   }
-  console.log(cart);
+  //recuperer infos sur le kanap depuis l'API
+  fetch("http://localhost:3000/api/products/")
+    .then((res) => res.json())
+    .then((data) => {
+      return affiche(data);
+    });
 }
-function affiche(item) {
-  const article = makeArticle(item);
-  const div = makeImage(item);
-  const cart = cartItemContent(item);
-  appendArticle(article);
-  article.appendChild(div);
-  article.appendChild(cart);
-  console.log(article);
-  totalprice(item);
-  totalQuantity(item);
+
+init();
+
+function affiche(products) {
+  cart.forEach((product) => {
+    console.log(products, product);
+    let productapi = products.find((item) => item._id == product.id);
+    product.imageUrl = productapi.imageUrl;
+    product.altTxt = productapi.altTxt;
+    product.name = productapi.name;
+    product.description = productapi.description;
+    product.price = productapi.price;
+    const article = makeArticle(product);
+    const div = makeImage(product);
+    const cart = cartItemContent(product);
+    appendArticle(article);
+    article.appendChild(div);
+    article.appendChild(cart);
+    console.log(article);
+    totalprice(product);
+    totalQuantity(product);
+  });
 }
 function totalQuantity() {
   let total = 0;
@@ -50,7 +69,6 @@ function makeArticle(item) {
 
   return article;
 }
-
 function makeImage(item) {
   const div = document.createElement("div");
   div.classList.add("cart__item__img");
@@ -60,6 +78,8 @@ function makeImage(item) {
   div.appendChild(image);
   return div;
 }
+
+
 function cartItemContent(item) {
   const div = document.createElement("div");
   div.classList.add("cart__item__content");
@@ -127,19 +147,22 @@ function deleteItem(item) {
 
   totalprice();
   totalQuantity();
-  deleteNewDataKanap(item);
+  deleteDataKanap(item);
   deleteArticle(item);
 }
+//delete article de page panier
 function deleteArticle(item) {
   const deleteArticl = document.querySelector(
     ` article[data-id="${item.id}"][data-color= "${item.color}"]`
   );
   deleteArticl.remove();
 }
-function deleteNewDataKanap(item) {
+//delete article de lacalstorage
+function deleteDataKanap(item) {
   const key = item.id + "_" + item.color;
   localStorage.removeItem(key);
 }
+//modifier la quantity
 function modifierPriceQauntity(id, nouvValue, item) {
   const itemModifier = cart.find((item) => item.id === id);
   itemModifier.quantity = Number(nouvValue);
@@ -148,6 +171,7 @@ function modifierPriceQauntity(id, nouvValue, item) {
   totalQuantity(item);
   saveNewDataKanap(item);
 }
+//save la modifier a localstorage
 function saveNewDataKanap(item) {
   let dataSave = JSON.stringify(item);
   const key = item.id + "_" + item.color;

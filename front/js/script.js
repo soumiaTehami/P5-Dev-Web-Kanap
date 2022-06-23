@@ -1,3 +1,19 @@
+function addproducts(data) {
+  for (i = 0; i < data.length; i++) {
+    const _id = data[i]._id;
+    const imageUrl = data[i].imageUrl;
+    const altTxt = data[i].altTxt;
+    const name = data[i].name;
+    const description = data[i].description;
+    const hr = makeHr(_id);
+    const h3 = makeH3(name);
+    const p = makeParagraphe(description);
+    const image = makeImage(imageUrl, altTxt);
+    const article = document.createElement("article");
+    appendElementtoHr(hr, article);
+    appendElementtoArticle(article, image, h3, p);
+  }
+}
 function init() {
   fetch("http://localhost:3000/api/products")
     .then((res) => res.json())
@@ -5,7 +21,9 @@ function init() {
       return addproducts(data);
     });
 }
+
 init();
+
 function makeHr(_id) {
   const hr = document.createElement("a");
   hr.href = "./product.html?id=" + _id;
@@ -41,20 +59,4 @@ function appendElementtoArticle(article, image, h3, p) {
   article.appendChild(image);
   article.appendChild(h3);
   article.appendChild(p);
-}
-function addproducts(data) {
-  for (i = 0; i < data.length; i++) {
-    const _id = data[i]._id;
-    const imageUrl = data[i].imageUrl;
-    const altTxt = data[i].altTxt;
-    const name = data[i].name;
-    const description = data[i].description;
-    const hr = makeHr(_id);
-    const h3 = makeH3(name);
-    const p = makeParagraphe(description);
-    const image = makeImage(imageUrl, altTxt);
-    const article = document.createElement("article");
-    appendElementtoHr(hr, article);
-    appendElementtoArticle(article, image, h3, p);
-  }
 }
