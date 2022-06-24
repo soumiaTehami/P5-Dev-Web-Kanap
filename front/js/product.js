@@ -83,7 +83,7 @@ function addkanap() {
 
       const kanap = {
         id: id,
-
+        color: color,
         quantity: Number(quantity),
       };
 

@@ -6,9 +6,9 @@ function init() {
     // Recuperation du kanap depuis le localstorage
     const item = localStorage.getItem(localStorage.key(i)) || "";
     const itemObj = JSON.parse(item); // notre canapé est dans la variable itemObj
-    console.log("key : " + localStorage.key(i));
+    //console.log("key : " + localStorage.key(i));
     cart.push(itemObj); //ajouté id et quantité cart
-    console.log(cart);
+    
   }
   //recuperer infos sur le kanap depuis l'API
   fetch("http://localhost:3000/api/products/")
@@ -22,7 +22,7 @@ init();
 
 function affiche(products) {
   cart.forEach((product) => {
-    console.log(products, product);
+
     let productapi = products.find((item) => item._id == product.id);
     product.imageUrl = productapi.imageUrl;
     product.altTxt = productapi.altTxt;
@@ -165,7 +165,7 @@ function deleteDataKanap(item) {
 //modifier la quantity
 function modifierPriceQauntity(id, nouvValue, item) {
   const itemModifier = cart.find((item) => item.id === id);
-  itemModifier.quantity = Number(nouvValue);
+  itemModifier.quantity =Number(nouvValue);
   item.quantity = itemModifier.quantity;
   totalprice(item);
   totalQuantity(item);
