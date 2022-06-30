@@ -189,12 +189,16 @@ function submitFrom(e) {
   if (emailInvalide()) return;
   if (NOMInvalide()) return;
   if (PrenomInvalide()) return;
+  if (adresseInvalide()) return;
+  if ( cityInvalide()) return;
+  
+ 
   function invalidateForm() {
     const form = document.querySelector(".cart__order__form");
     const inputs = document.querySelectorAll("input");
     inputs.forEach((input) => {
       if (input.value === "") {
-        alert("remplir tous les champs");
+         alert("remplir tous les champs");
         return true;
       }
       return false;
@@ -213,11 +217,21 @@ function submitFrom(e) {
   }
   function NOMInvalide() {
     const firstNameErrField = document.getElementById("firstNameErrorMsg");
-
     const nom = document.querySelector("#firstName").value;
     const regex = /^[a-záàâäãåçéèêëíìîïñóòôöõúùûüýÿæœ\s-]{1,31}$/;
     if (regex.test(nom) === false) {
       firstNameErrField.innerHTML = "Merci de saisir un prénom valide.";
+
+      return true;
+    }
+    return false;
+  }
+  function cityInvalide() {
+    const cityErrField = document.getElementById('cityErrorMsg')
+    const city = document.querySelector("#city").value;
+    const regex =/^[a-zA-Z\u0080-\u024F\s\/\-\)\(\`\.\"\']+$/;
+    if (regex.test(city) === false) {
+      cityErrField.innerHTML = 'Merci de saisir un nom de ville valide.'
 
       return true;
     }
@@ -234,6 +248,20 @@ function submitFrom(e) {
     }
     return false;
   }
+  function adresseInvalide() {
+    const addressErrField = document.getElementById('addressErrorMsg')
+   const adresse = document.querySelector("#address").value;
+   const regex =/([0-9]{1,}) ?([A-zÀ-ú,' -\. ]*)/
+    
+    if (regex.test(adresse) === false) {
+      addressErrField.innerHTML = 'Merci de saisir une adresse valide.'
+
+    return true;
+    }
+    return false;
+  }
+  
+  
   const form = document.querySelector(".cart__order__form");
   const body = cartOrder();
   fetch("http://localhost:3000/api/products/order", {
