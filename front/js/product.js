@@ -72,6 +72,7 @@ function addkanap() {
         color == null ||
         color === "" ||
         quantity == null ||
+        quantity < 0     ||
         quantity == 0 ||
         quantity > 100
       ) {

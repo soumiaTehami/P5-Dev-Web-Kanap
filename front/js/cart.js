@@ -8,7 +8,6 @@ function init() {
     const itemObj = JSON.parse(item); // notre canapé est dans la variable itemObj
     //console.log("key : " + localStorage.key(i));
     cart.push(itemObj); //ajouté id et quantité cart
-    
   }
   //recuperer infos sur le kanap depuis l'API
   fetch("http://localhost:3000/api/products/")
@@ -22,7 +21,6 @@ init();
 
 function affiche(products) {
   cart.forEach((product) => {
-
     let productapi = products.find((item) => item._id == product.id);
     product.imageUrl = productapi.imageUrl;
     product.altTxt = productapi.altTxt;
@@ -35,7 +33,7 @@ function affiche(products) {
     appendArticle(article);
     article.appendChild(div);
     article.appendChild(cart);
-    console.log(article);
+    //console.log(article);
     totalprice(product);
     totalQuantity(product);
   });
@@ -78,7 +76,6 @@ function makeImage(item) {
   div.appendChild(image);
   return div;
 }
-
 
 function cartItemContent(item) {
   const div = document.createElement("div");
@@ -164,11 +161,13 @@ function deleteDataKanap(item) {
 }
 //modifier la quantity
 function modifierPriceQauntity(id, nouvValue, item) {
-  const itemModifier = cart.find((item) => item.id === id);
-  itemModifier.quantity =Number(nouvValue);
+  const itemModifier = cart.find(
+    (item) => item.id === id && item.color === color
+  );
+  itemModifier.quantity = Number(nouvValue);
   item.quantity = itemModifier.quantity;
-  totalprice(item);
-  totalQuantity(item);
+  totalprice();
+  totalQuantity();
   saveNewDataKanap(item);
 }
 //save la modifier a localstorage
@@ -181,7 +180,7 @@ const buttonCommande = document.querySelector("#order");
 buttonCommande.addEventListener("click", (e) => submitFrom(e));
 
 function submitFrom(e) {
-  e.preventDefault();
+  e.preventDefault(); //ne pas rafraîchir la page
   if (cart.length === 0) {
     alert("entrez un produits");
     return;
@@ -202,29 +201,35 @@ function submitFrom(e) {
     });
   }
   function emailInvalide() {
+    const emailErrField = document.getElementById("emailErrorMsg");
     const email = document.querySelector("#email").value;
     const regex =
-      /^[a-zA-Z0-9æœ.!#$%&’*+/=?^_`{|}~"(),:;<>@[\]-]+@([\w-]+\.)+[\w-]{2,4}$/;
+      /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
     if (regex.test(email) === false) {
-      alert("remplir votre email");
+      emailErrField.innerHTML = "Merci de saisir une adresse email valide.";
       return true;
     }
     return false;
   }
   function NOMInvalide() {
+    const firstNameErrField = document.getElementById("firstNameErrorMsg");
+
     const nom = document.querySelector("#firstName").value;
     const regex = /^[a-záàâäãåçéèêëíìîïñóòôöõúùûüýÿæœ\s-]{1,31}$/;
     if (regex.test(nom) === false) {
-      alert("remplir le champs correctement");
+      firstNameErrField.innerHTML = "Merci de saisir un prénom valide.";
+
       return true;
     }
     return false;
   }
   function PrenomInvalide() {
+    const lastNameErrField = document.getElementById("lastNameErrorMsg");
     const prenom = document.querySelector("#lastName").value;
     const regex = /^[a-záàâäãåçéèêëíìîïñóòôöõúùûüýÿæœ\s-]{1,31}$/;
     if (regex.test(prenom) === false) {
-      alert("remplir le champs correctement");
+      lastNameErrField.innerHTML = "Merci de saisir un nom valide.";
+
       return true;
     }
     return false;
@@ -277,7 +282,7 @@ function getIds() {
     const key = localStorage.key(i);
     const id = key.split("_")[0];
     ids.push(id);
-    console.log(id);
+    //console.log(id);
   }
   return ids;
 }
